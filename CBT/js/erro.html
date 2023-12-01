@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Subject Selection</title>
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+            text-align: center; /* Aligns text and select in the center */
+        }
+
+        .form-group select {
+            margin-top: 10px; /* Adds space between the text and the select */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="erro"></div>
+    <div class="stat-class">
+        <div class="mp form--hidden" style="float: left; width:60%">
+            <p>To start studying past questions, please select the subject(s) to be examined on. After selection, click next to enter the exam hall.</p>
+            <ul id="subjectList" class="ul" style="list-style: none;">
+                <p id="p"></p>
+                <li><input type="checkbox" id="f" value="English Language" onclick="same(this)">English Language</li>
+                <li><input type="checkbox" value="Include English comprehension questions" onclick="updateSelectedSubject('select2', this)">Include English comprehension questions </li>
+                <li><input type="checkbox" value="Include current JAMB novel questions" onclick="updateSelectedSubject('select3', this)">Include current JAMB novel questions </li>
+                <li><input type="checkbox" value="Mathematics" onclick="updateSelectedSubject('select4', this)">Mathematics</li>
+                <!-- Add more subjects as needed -->
+                <input type="range">
+
+                <script>
+                   function same(checkbox){
+                    var a=document.getElementById("f").value;
+                    var ans=document.getElementById("p").innerHTML=a;
+                    ans =checkbox.checked ? checkbox.value : "None";
+                   ans.length = 0; // Clear existing options
+                    ans.add(innerHTML);
+                    }
+                   
+                </script>
+            </ul>
+        </div>
+
+        <!-- Display selected subjects in paragraph tags above each select -->
+        <div class="form-group">
+            <p id="selectedSubject1">Selected subject: None</p>
+            <select class="form-control" name="" id="select1" onchange="updateSelectedSubjectText('select1')">
+                <option value="">Practic mode (35mins)</option>
+                <option value="">Full exam mode (2hrs)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <p id="selectedSubject2">Selected subject: None</p>
+            <select class="form-control" name="" id="select2" onchange="updateSelectedSubjectText('select2')">
+                <option value="">Practic mode (35mins)</option>
+                <option value="">Full exam mode (2hrs)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <p id="selectedSubject3">Selected subject: None</p>
+            <select class="form-control" name="" id="select3" onchange="updateSelectedSubjectText('select3')">
+                <option value="">Practic mode (35mins)</option>
+                <option value="">Full exam mode (2hrs)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <p id="selectedSubject4">Selected subject: None</p>
+            <select class="form-control" name="" id="select4" onchange="updateSelectedSubjectText('select4')">
+                <option value="">Practic mode (35mins)</option>
+                <option value="">Full exam mode (2hrs)</option>
+            </select>
+        </div>
+
+        <button onclick="validateSubjects()">Next</button>
+
+    </div>
+
+    <script>
+        function updateSelectedSubject(selectId, checkbox) {
+            var select = document.getElementById(selectId);
+            var option = document.createElement("option");
+            option.text = checkbox.checked ? checkbox.value : "None";
+            select.options.length = 0; // Clear existing options
+            select.add(option);
+        }
+
+        function updateSelectedSubjectText(selectId) {
+            var selectedSubject = document.getElementById('selected' + selectId.slice(-1));
+            var select = document.getElementById(selectId);
+            selectedSubject.innerHTML = "Selected subject: " + (select.options[select.selectedIndex].text || "None");
+        }
+
+        function validateSubjects() {
+            var selectedSubjects = document.querySelectorAll('input[type="checkbox"]:checked');
+            var errorDiv = document.getElementById("erro");
+
+            if (selectedSubjects.length === 4) {
+                // You can perform further actions here
+            } else if (selectedSubjects.length < 3) {
+                displayError("Please choose at least 3 subjects.");
+            } else {
+                displayError("Please choose exactly 4 subjects.");
+            }
+        }
+
+        function displayError(message) {
+            var errorDiv = document.getElementById("erro");
+            errorDiv.innerHTML = message;
+            errorDiv.style.display = "block";
+            errorDiv.style.border = "1px solid red";
+            errorDiv.style.textAlign = "center";
+            errorDiv.style.width = "80%";
+            errorDiv.style.margin = "auto";
+            errorDiv.style.padding = "10px 30px";
+            errorDiv.style.backgroundColor = "red";
+            errorDiv.style.color = "#333";
+            errorDiv.style.textTransform = "uppercase";
+            errorDiv.style.borderRadius = "0.5em";
+            const nav = document.getElementById("diplay__error")
+            // Scroll up to the error message
+            nav.scrollIntoView({
+                behavior: 'smooth'
+            });
+
+            setTimeout(() => {
+                errorDiv.innerHTML = "";
+                errorDiv.style.display = "none";
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
